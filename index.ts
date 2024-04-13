@@ -1,30 +1,52 @@
-import {Bot, GrammyError, HttpError, Context} from "grammy";
+import {Bot, GrammyError, HttpError, Context, Keyboard} from "grammy";
 import cron from 'node-cron';
+import {imageLinks} from "./public/imgLinks";
+
 require('dotenv').config()
 
+interface Data {
+    users: { userId: number }[]
+    startMessageSending: (userId: number, isStop: boolean) => void
+}
 
-const images = [
-    "./public/images/image.png",
-    "./public/images/image2.png",
-    "./public/images/image3.png",
-    "./public/images/image4.png",
-    "./public/images/image5.png",
-];
+const keyboard = new Keyboard().text('stop').resized().oneTime()
 
 const bot = new Bot<Context>(process.env.BOT_TOKEN as string)
 
+const data: Data = {
+    users: [
+        {userId: 6839434298},
+        {userId: 477328986},
+    ],
+    startMessageSending(userId, isStop) {
+        const task = cron.schedule('* * * * *', () => {
+            const randomNumber = Math.floor(Math.random() * 6)
+            if (userId !== null)
+                data.users.forEach((user) => {
+                    bot.api.sendPhoto(user.userId, imageLinks[randomNumber])
+
+                })
+        })
+        if (isStop){
+            console.log('isStop: ',isStop)
+            task.stop()
+        }
+    },
+}
 
 bot.command('start', async (ctx) => {
-    await ctx.react('👍')
-    await ctx.replyWithPhoto("https://images.wallpapersden.com/image/download/android-logo-2021_bGxnZWiUmZqaraWkpJRraWWtaGtl.jpg")
-    // await ctx.api.sendPhoto(477328986, images[0])
-    console.log(ctx.msg)
+    await ctx.reply('Hi dear friend!', {
+        reply_markup: keyboard
+    })
+    data.startMessageSending(6839434298, false)
 })
 
-bot.on('message', async (ctx)=> {
+bot.hears('stop', async (ctx) => {
+    await bot.stop().then(()=>{
+        console.log('bot stopped!')
+        data.startMessageSending(123, true)
+    })
 })
-
-
 
 
 bot.catch((err) => {
