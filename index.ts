@@ -1,48 +1,25 @@
-import { Bot, GrammyError, HttpError, Context, Keyboard } from 'grammy'
-import cron from 'node-cron'
-import { imageLinks } from './public/imgLinks'
+import { GrammyError, HttpError, Context } from 'grammy'
+import { messageSending } from './bot.service'
+const bot = require('./bot.create')
 
 require('dotenv').config()
-require('./command/menu.command')
+require('./bot.menu')
 
-interface Data {
-	startMessageSending: (userId: number, isSend: string) => void
-}
-
-const keyboard = new Keyboard().text('stop').resized().oneTime()
-
-const bot = new Bot<Context>(process.env.BOT_TOKEN as string)
-
-const message: any = {
-	url_taskMap: {},
-	startMessageSending(userId: any, isSend: any) {
-		const task = cron.schedule('* * * * *', () => {
-			const randomNumber = Math.floor(Math.random() * 352)
-			console.log(randomNumber)
-			bot.api.sendPhoto(userId, imageLinks[randomNumber])
-		})
-		this.url_taskMap['url'] = task
-	},
-	stopMessageSending() {
-		this.url_taskMap.url.stop()
-		console.log('job should be stopped')
-	},
-}
-
-bot.command('start', async ctx => {
+bot.command('start', async (ctx: Context) => {
 	await ctx.reply(
 		'Дорогой друг, с этого момента ты будешь получать послания тут один раз в день'
 	)
-	message.startMessageSending(ctx.msg?.from?.id as number, true)
+	messageSending.startMessageSending(ctx.msg?.from?.id as number)
 	await ctx.deleteMessage()
 })
 
-bot.command('stop', async ctx => {
-	message.stopMessageSending()
+bot.command('stop', async (ctx: Context) => {
+	await ctx.reply('Ты всегда можешь продолжить, нажав кнопку старт в меню')
+	messageSending.stopMessageSending()
 	await ctx.deleteMessage()
 })
 
-bot.catch(err => {
+bot.catch((err: any) => {
 	const ctx = err.ctx
 	console.error(`Error while handling update ${ctx.update.update_id}:`)
 	const e = err.error

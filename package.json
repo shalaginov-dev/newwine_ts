@@ -1,21 +1,26 @@
 {
-  "name": "newwine2",
-  "version": "1.0.0",
-  "main": "index.js",
-  "scripts": {
-    "dev": "nodemon index.ts"
-  },
-  "license": "MIT",
-  "devDependencies": {
-    "@types/node": "^20.12.7",
-    "nodemon": "^3.1.0",
-    "ts-node": "^10.9.2",
-    "typescript": "^5.4.4"
-  },
-  "dependencies": {
-    "@types/node-cron": "^3.0.11",
-    "dotenv": "^16.4.5",
-    "grammy": "^1.22.4",
-    "node-cron": "^3.0.3"
-  }
+	"name": "newwine",
+	"version": "1.0.0",
+	"main": "index.ts",
+	"scripts": {
+		"start": "node index.ts",
+		"dev": "nodemon index.ts"
+	},
+	"author": {
+		"name": "Ivan Shalaginov",
+		"telegram": "@LazyyKid"
+	},
+	"license": "MIT",
+	"devDependencies": {
+		"@types/node": "^20.12.7",
+		"nodemon": "^3.1.0",
+		"ts-node": "^10.9.2",
+		"typescript": "^5.4.4"
+	},
+	"dependencies": {
+		"@types/node-cron": "^3.0.11",
+		"dotenv": "^16.4.5",
+		"grammy": "^1.22.4",
+		"node-cron": "^3.0.3"
+	}
 }

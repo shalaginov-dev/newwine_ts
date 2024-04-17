@@ -1,4 +1,5 @@
-import * as bot from '../connection/token.connection'
+export {}
+const bot = require('./bot.create')
 
 module.exports = bot.api.setMyCommands([
 	{
