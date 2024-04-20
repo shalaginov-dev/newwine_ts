@@ -9,13 +9,13 @@ bot.command('start', async (ctx: Context) => {
 	await ctx.reply(
 		'Дорогой друг, с этого момента ты будешь получать послания тут один раз в день'
 	)
-	messageSending.startMessageSending(ctx.msg?.from?.id as number)
+	messageSending.startMorningSending(ctx.msg?.from?.id as number)
 	await ctx.deleteMessage()
 })
 
 bot.command('stop', async (ctx: Context) => {
 	await ctx.reply('Ты всегда можешь продолжить, нажав кнопку старт в меню')
-	messageSending.stopMessageSending()
+	messageSending.stopMorningSending()
 	await ctx.deleteMessage()
 })
 
