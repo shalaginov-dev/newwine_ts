@@ -1,7 +1,6 @@
-import { Bot, Context } from 'grammy'
-import { EmojiFlavor } from '@grammyjs/emoji'
+import {Bot, Context} from 'grammy'
+
 require('dotenv').config()
 
-export type MyContext = EmojiFlavor
 
-module.exports = new Bot<MyContext>(process.env.BOT_TOKEN as string)
+module.exports = new Bot<Context>(process.env.BOT_TOKEN as string)
