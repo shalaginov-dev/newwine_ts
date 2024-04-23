@@ -14,4 +14,8 @@ module.exports = bot.api.setMyCommands([
 		command: 'links',
 		description: 'Наши ссылки',
 	},
+	{
+		command: 'detox',
+		description: 'Детоксикация от религии',
+	},
 ])
