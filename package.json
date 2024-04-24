@@ -7,7 +7,7 @@
 	},
 	"license": "MIT",
 	"scripts": {
-		"start": "node index.ts",
+		"start": "ts-node index.ts",
 		"dev": "nodemon index.ts",
 		"build": "parcel build index.ts"
 	},
